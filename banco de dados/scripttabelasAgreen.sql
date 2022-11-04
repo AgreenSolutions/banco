@@ -63,7 +63,62 @@ telFixo char (11),
 mensagem varchar (200)
 );
 
+-- SCRIPT AZURE
 
+create table empresa (
+idEmpresa INT PRIMARY KEY identity(1,1),
+razaoSocial varchar(80),
+nome varchar (45),
+CNPJ char (14),
+telFixo char(11)
+);
+
+create table usuario (
+idUsuario INT primary key identity(1,1),
+nome varchar (45),
+email varchar (45),
+senha varchar (20),
+fkempresa int foreign key references
+empresa (idEmpresa)
+); 
+
+create table enderecoEmpresa (
+idEndereco int,
+fkempresa int foreign key references empresa(idEmpresa),
+cep char (8),
+rua varchar (45),
+bairro varchar (45),
+num int,
+complemento varchar (45),
+primary key (idEndereco, fkempresa)
+);
+ 
+create table sensor (
+idSensor int,
+fkEmpresa int foreign key references empresa(idEmpresa),
+atividade varchar (45),
+nome varchar(45),
+primary key (idSensor, fkEmpresa)
+);
+
+create table leitura (
+idLeitura int primary key identity(1,1),
+temperatura DECIMAL (5,2),
+umidade DECIMAL (5,2),
+data_horario datetime,
+fksensor int foreign key references sensor (idSensor),
+fkEmpresa int foreign key references sensor(fkEmpresa)
+);
+
+create table contato (
+idContato int primary key identity(1,1),
+nome varchar (45),
+email varchar (45),
+telFixo char (11),
+mensagem varchar (200)
+);
+
+-- FIM SCRIPT AZURE
 
 INSERT INTO empresa VALUES
 (null, 'Barcelona Comércio Varejista e Atacadista S/A', 'Assai', 55343752000147, 1122446688),
